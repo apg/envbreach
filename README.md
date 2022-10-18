@@ -17,8 +17,19 @@ ${USER}: My pleasure!
 Interviewer: You wrote this utility to show off an intuitive way to do
   12 Factor with Vault, is that correct?
 ${USER}: Why yes it is, Bob. Yes it is."
+# What's the PASSWORD?
 $ envbreach python -c "import os; print os.environ['PASSWORD']"
 hunter2
+# Now show what the full environment is when running.
+$ envbreach env
+HOME=/home/apg
+PASSWORD=hunter2
+USERNAME=apg
+INTERVIEW=Interviewer: Hello, apg! Thanks for joining me.
+apg: My pleasure!
+Interviewer: You wrote this utility to show off an intuitive way to do
+  12 Factor with Vault, is that correct?
+apg: Why yes it is, Bob. Yes it is.
 ```
 
 This assumes that the following is in `envbreach`'s environment:

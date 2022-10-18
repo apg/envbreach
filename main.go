@@ -226,8 +226,6 @@ func vaultClient() (*vault.Client, error) {
 		auth.WithMountPath(*appRolePath),
 	)
 
-	fmt.Println(appRoleAuth)
-
 	if err != nil {
 		return nil, fmt.Errorf("unable to initialize AppRole auth method: %w", err)
 	}
