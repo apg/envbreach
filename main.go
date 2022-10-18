@@ -23,7 +23,7 @@ var envFile = flag.String("e", ".env", "PATH to .env file")
 var appRolePath = flag.String("a", "approle", "Vault path to App Role mount")
 var appRoleId = flag.String("r", "", "App Role Role ID")
 var appRoleSecretId = flag.String("s", "", "App Role Secret ID")
-var vaultAddr = flag.String("addr", "https://localhost:8200", "VAULT_ADDR")
+var vaultAddr = flag.String("addr", "", "VAULT_ADDR")
 var vaultNamespace = flag.String("namespace", "", "VAULT_NAMESPACE")
 
 type reifier interface {
@@ -180,7 +180,9 @@ func (e *vaultReifier) Reify(_ string, args ...interface{}) (interface{}, error)
 
 func defaultenv(set *string, env string) string {
 	if *set == "" {
+		fmt.Println("using the environment for", env)
 		*set = os.Getenv(env)
+		fmt.Println("    setting to: ", *set)
 	}
 	return *set
 }
@@ -208,11 +210,11 @@ func vaultClient() (*vault.Client, error) {
 	}
 
 	config := vault.DefaultConfig() // modify for more granular configuration
+	config.Address = *vaultAddr
 	client, err := vault.NewClient(config)
 	if err != nil {
 		return nil, fmt.Errorf("unable to initialize Vault client: %w", err)
 	}
-	client.SetAddress(*vaultAddr)
 	if *vaultNamespace != "" {
 		client.WithNamespace(*vaultNamespace)
 	}
@@ -223,6 +225,9 @@ func vaultClient() (*vault.Client, error) {
 		secretId,
 		auth.WithMountPath(*appRolePath),
 	)
+
+	fmt.Println(appRoleAuth)
+
 	if err != nil {
 		return nil, fmt.Errorf("unable to initialize AppRole auth method: %w", err)
 	}

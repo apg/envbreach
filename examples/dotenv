@@ -1,0 +1,8 @@
+HOME="${HOME}"
+PASSWORD="${vault:///v1/secret/data/user#data.data.password}"
+USERNAME="${vault:///v1/secret/data/user#data.data.user}"
+INTERVIEW="Interviewer: Hello, ${USER}! Thanks for joining me.
+${USER}: My pleasure!
+Interviewer: You wrote this utility to show off an intuitive way to do
+  12 Factor with Vault, is that correct?
+${USER}: Why yes it is, Bob. Yes it is."
