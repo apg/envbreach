@@ -180,9 +180,7 @@ func (e *vaultReifier) Reify(_ string, args ...interface{}) (interface{}, error)
 
 func defaultenv(set *string, env string) string {
 	if *set == "" {
-		fmt.Println("using the environment for", env)
 		*set = os.Getenv(env)
-		fmt.Println("    setting to: ", *set)
 	}
 	return *set
 }
